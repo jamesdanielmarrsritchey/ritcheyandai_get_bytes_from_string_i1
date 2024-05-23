@@ -1,0 +1,167 @@
+jamesdanielmarrsritchey: Using C++, write a program which reads a string 1 byte at a time, until it reaches a minimum byte, then returns all bytes until it reaches a maximum byte. Arguments are passed from the commandline by the user. If the minimum byte requested is higher than the number of bytes in the string, the program should return bool false, and exit 1.
+
+GitHub Copilot: Here is a step-by-step plan:
+
+1. Include necessary libraries.
+2. Define the main function that accepts command line arguments.
+3. Check if the correct number of arguments are passed.
+4. Convert the second and third arguments to integers representing the minimum and maximum bytes.
+5. Check if the minimum byte is greater than the length of the string. If so, return false and exit with code 1.
+6. Create a substring from the minimum byte to the maximum byte.
+7. Print the substring.
+8. Return 0 to indicate successful execution.
+
+Here is the C++ code:
+
+```cpp
+#include <iostream>
+#include <string>
+#include <cstdlib>
+
+int main(int argc, char* argv[]) {
+    if (argc != 4) {
+        std::cerr << "Usage: " << argv[0] << " <string> <min_byte> <max_byte>\n";
+        return 1;
+    }
+
+    std::string str = argv[1];
+    int min_byte = std::stoi(argv[2]);
+    int max_byte = std::stoi(argv[3]);
+
+    if (min_byte > str.length()) {
+        std::cerr << "Minimum byte is greater than the string length.\n";
+        return 1;
+    }
+
+    std::string substring = str.substr(min_byte, max_byte - min_byte);
+
+    std::cout << substring << "\n";
+
+    return 0;
+}
+```
+
+To compile and run this program, you can use the following commands in the terminal:
+
+```bash
+g++ -o program program.cpp
+./program "Hello, World!" 2 5
+```
+
+This will output `llo,` which is the substring from the 2nd byte to the 5th byte in the string `Hello, World!`.
+
+jamesdanielmarrsritchey: The arguments should be formatted as "--string value", "--min_byte value", and "--max_byte value".
+
+GitHub Copilot: Here is a step-by-step plan:
+
+1. Include necessary libraries.
+2. Define the main function that accepts command line arguments.
+3. Check if the correct number of arguments are passed.
+4. Parse the command line arguments to get the string, minimum byte, and maximum byte.
+5. Check if the minimum byte is greater than the length of the string. If so, return false and exit with code 1.
+6. Create a substring from the minimum byte to the maximum byte.
+7. Print the substring.
+8. Return 0 to indicate successful execution.
+
+Here is the C++ code:
+
+```cpp
+#include <iostream>
+#include <string>
+#include <cstdlib>
+
+int main(int argc, char* argv[]) {
+    if (argc != 7) {
+        std::cerr << "Usage: " << argv[0] << " --string <string> --min_byte <min_byte> --max_byte <max_byte>\n";
+        return 1;
+    }
+
+    std::string str;
+    int min_byte;
+    int max_byte;
+
+    for (int i = 1; i < argc; i++) {
+        if (std::string(argv[i]) == "--string") {
+            str = argv[++i];
+        } else if (std::string(argv[i]) == "--min_byte") {
+            min_byte = std::stoi(argv[++i]);
+        } else if (std::string(argv[i]) == "--max_byte") {
+            max_byte = std::stoi(argv[++i]);
+        }
+    }
+
+    if (min_byte > str.length()) {
+        std::cerr << "Minimum byte is greater than the string length.\n";
+        return 1;
+    }
+
+    std::string substring = str.substr(min_byte, max_byte - min_byte);
+
+    std::cout << substring << "\n";
+
+    return 0;
+}
+```
+
+To compile and run this program, you can use the following commands in the terminal:
+
+```bash
+g++ -o program program.cpp
+./program --string "Hello, World!" --min_byte 2 --max_byte 5
+```
+
+This will output `llo,` which is the substring from the 2nd byte to the 5th byte in the string `Hello, World!`.
+
+jamesdanielmarrsritchey: The min byte cannot exceed the max byte
+
+GitHub Copilot: Here is a step-by-step plan:
+
+1. After parsing the command line arguments, check if the minimum byte is greater than the maximum byte. If so, print an error message and return 1 to indicate an error.
+2. Continue with the rest of the program as before.
+
+Here is the updated C++ code:
+
+```cpp
+#include <iostream>
+#include <string>
+#include <cstdlib>
+
+int main(int argc, char* argv[]) {
+    if (argc != 7) {
+        std::cerr << "Usage: " << argv[0] << " --string <string> --min_byte <min_byte> --max_byte <max_byte>\n";
+        return 1;
+    }
+
+    std::string str;
+    int min_byte;
+    int max_byte;
+
+    for (int i = 1; i < argc; i++) {
+        if (std::string(argv[i]) == "--string") {
+            str = argv[++i];
+        } else if (std::string(argv[i]) == "--min_byte") {
+            min_byte = std::stoi(argv[++i]);
+        } else if (std::string(argv[i]) == "--max_byte") {
+            max_byte = std::stoi(argv[++i]);
+        }
+    }
+
+    if (min_byte > max_byte) {
+        std::cerr << "Minimum byte cannot be greater than maximum byte.\n";
+        return 1;
+    }
+
+    if (min_byte > str.length()) {
+        std::cerr << "Minimum byte is greater than the string length.\n";
+        return 1;
+    }
+
+    std::string substring = str.substr(min_byte, max_byte - min_byte);
+
+    std::cout << substring << "\n";
+
+    return 0;
+}
+```
+
+This code will now return an error if the minimum byte is greater than the maximum byte.
